@@ -1,5 +1,5 @@
-import one.DayOne
+import day.Day01
 
-enum class AdventOfCode(dayOfCode: DayOfCode) {
-    Day1(DayOne())
+enum class AdventOfCode(val dayOfCode: DayOfCode) {
+    Day1(Day01("01.data"))
 }
