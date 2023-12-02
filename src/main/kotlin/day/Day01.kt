@@ -2,16 +2,16 @@ package day
 
 import DayOfCode
 
-class Day01(filename: String?) : DayOfCode(filename) {
+class Day01(filename: String) : DayOfCode(filename) {
 
-    override fun solveOne(filename: String?): Any {
-        return openStream(filename).readLines().sumOf { line ->
+    override fun solveOne(): Any {
+        return openStream().readLines().sumOf { line ->
             "${line.first { it.isDigit() }}${line.last { it.isDigit() }}".toInt()
         }
     }
 
-    override fun solveTwo(filename: String?): Any {
-        return openStream(filename).readLines().sumOf { line ->
+    override fun solveTwo(): Any {
+        return openStream().readLines().sumOf { line ->
             var firstNumAndIndex: Pair<Int, Int> = 0 to Int.MAX_VALUE
             var lastNumAndIndex: Pair<Int, Int> = 0 to Int.MIN_VALUE
             for (num in 1..9) {
