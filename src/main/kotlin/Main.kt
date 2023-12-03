@@ -1,3 +1,3 @@
 fun main(args: Array<String>) {
-    AdventOfCode.Day2.dayOfCode.solve()
+    AdventOfCode.Day3.dayOfCode.solve()
 }
