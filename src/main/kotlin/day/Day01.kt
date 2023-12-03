@@ -1,54 +1,82 @@
 package day
 
 import DayOfCode
+import kotlin.math.min
 
 class Day01(filename: String) : DayOfCode(filename) {
 
     override fun solveOne(): Any {
         return openStream().readLines().sumOf { line ->
-            "${line.first { it.isDigit() }}${line.last { it.isDigit() }}".toInt()
+            CalibrationInstructions(line).digitsOnly
         }
     }
 
     override fun solveTwo(): Any {
         return openStream().readLines().sumOf { line ->
-            var firstNumAndIndex: Pair<Int, Int> = 0 to Int.MAX_VALUE
-            var lastNumAndIndex: Pair<Int, Int> = 0 to Int.MIN_VALUE
-            for (num in 1..9) {
-                val firstIndexOfInt = line.indexOf(num.toString())
-                if (firstIndexOfInt >= 0 && firstIndexOfInt < firstNumAndIndex.second) {
-                    firstNumAndIndex = num to firstIndexOfInt
-                }
-                
-                val firstIndexOfWord = line.indexOf(num.toWord())
-                if (firstIndexOfWord >= 0 && firstIndexOfWord < firstNumAndIndex.second) {
-                    firstNumAndIndex = num to firstIndexOfWord
-                }
-                
-                val lastIndexOfInt = line.lastIndexOf(num.toString())
-                if (lastIndexOfInt >= 0 && lastIndexOfInt > lastNumAndIndex.second) {
-                    lastNumAndIndex = num to lastIndexOfInt
-                }
-                
-                val lastIndexOfWord = line.lastIndexOf(num.toWord())
-                if (lastIndexOfWord >= 0 && lastIndexOfWord > lastNumAndIndex.second) {
-                    lastNumAndIndex = num to lastIndexOfWord
-                }
-            }
-            "${firstNumAndIndex.first}${lastNumAndIndex.first}".toInt()
+            CalibrationInstructions(line).digitsOrWords
         }
     }
     
-    private fun Int.toWord() = when (this) {
-        1 -> "one"
-        2 -> "two"
-        3 -> "three"
-        4 -> "four"
-        5 -> "five"
-        6 -> "six"
-        7 -> "seven"
-        8 -> "eight"
-        9 -> "nine"
-        else -> throw UnsupportedOperationException()
+    data class CalibrationInstructions(val data: String) {
+        val digitsOnly: Int
+            get() = "${data.first { it.isDigit() }}${data.last { it.isDigit() }}".toInt()
+        
+        val digitsOrWords: Int
+            get() = run {
+                var numbers = Numbers()
+                for (num in 1..9) {
+                    data.indexOfOrNull(num)?.let { 
+                        if (it < numbers.firstNumIndex) {
+                            numbers = numbers.copy(firstNum = num, firstNumIndex = it)
+                        }
+                    }
+                    
+                    data.indexOfOrNull(num)?.let { 
+                        if (it > numbers.lastNumIndex) {
+                            numbers = numbers.copy(lastNum = num, lastNumIndex = it)
+                        }
+                    }
+                }
+                numbers.combined
+            }
+        
+        private fun String.indexOfOrNull(num: Int): Int? {
+            val indexOfInt = this.indexOf(num.toString()).nullIfNegative()
+            val indexOfWord = this.indexOf(num.toWord()).nullIfNegative()
+            return when {
+                indexOfInt == null && indexOfWord != null -> indexOfWord
+                indexOfInt != null && indexOfWord == null -> indexOfInt
+                indexOfInt != null && indexOfWord != null -> min(indexOfInt, indexOfWord)
+                else -> null
+            }
+        }
+        
+        private fun Int.nullIfNegative() = if (this < 0) null else this
+        
+        data class Numbers(
+            val firstNum: Int = 0,
+            val firstNumIndex: Int = Int.MAX_VALUE,
+            val lastNum: Int = 0,
+            val lastNumIndex: Int = Int.MIN_VALUE
+        ) {
+            val combined = "$firstNum$lastNum".toInt()
+        }
+        
+        companion object {
+            private val numToWordMap = mapOf(
+                1 to "one",
+                2 to "two",
+                3 to "three",
+                4 to "four",
+                5 to "five",
+                6 to "six",
+                7 to "seven",
+                8 to "eight",
+                9 to "nine"
+            )
+            
+            private fun Int.toWord() = numToWordMap[this] ?: throw UnsupportedOperationException()
+        }
+
     }
 }
