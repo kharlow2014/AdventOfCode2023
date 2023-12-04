@@ -8,7 +8,7 @@ class Day03Tests {
     fun `day three part one returns 4361`() {
         val expected = 4361
         
-        val actual = Day03("03.data").solveOne()
+        val actual = Day03().solveOne()
         
         assertEquals(expected, actual)
     }
@@ -17,7 +17,7 @@ class Day03Tests {
     fun `day three part two returns 467835`() {
         val expected = 467835
         
-        val actual = Day03("03.data").solveTwo()
+        val actual = Day03().solveTwo()
         
         assertEquals(expected, actual)
     }

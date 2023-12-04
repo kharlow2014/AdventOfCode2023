@@ -2,7 +2,7 @@ package day
 
 import DayOfCode
 
-class Day02(filename: String) : DayOfCode(filename) {
+class Day02(filename: String? = null) : DayOfCode(filename ?: "02.data") {
     
     override fun solveOne(): Any {
         return openStream().readLines().sumOf { line ->

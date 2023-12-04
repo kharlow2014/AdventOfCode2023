@@ -3,7 +3,7 @@ package day
 import DayOfCode
 import kotlin.math.min
 
-class Day01(filename: String) : DayOfCode(filename) {
+class Day01(filename: String? = null) : DayOfCode(filename ?: "01.data") {
 
     override fun solveOne(): Any {
         return openStream().readLines().sumOf { line ->

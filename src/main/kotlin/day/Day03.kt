@@ -2,7 +2,7 @@ package day
 
 import DayOfCode
 
-class Day03(filename: String) : DayOfCode(filename) {
+class Day03(filename: String? = null) : DayOfCode(filename ?: "03.data") {
     
     override fun solveOne(): Any {
         val data = openStream().readLines().map { it.toCharArray() }
