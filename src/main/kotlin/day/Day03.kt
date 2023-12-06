@@ -4,8 +4,8 @@ import DayOfCode
 
 class Day03(filename: String? = null) : DayOfCode(filename ?: "03.data") {
     
-    override fun solveOne(): Any {
-        val data = openStream().readLines().map { it.toCharArray() }
+    override fun solveOne() = openStream().use { stream ->
+        val data = stream.readLines().map { it.toCharArray() }
         val partNumbers: MutableList<Int> = mutableListOf()
         var lineNumber = 0
         var charNumber = 0
@@ -72,12 +72,11 @@ class Day03(filename: String? = null) : DayOfCode(filename ?: "03.data") {
             }
         }
         
-        println(partNumbers)
-        return partNumbers.sum()
+        partNumbers.sum()
     }
 
-    override fun solveTwo(): Any {
-        val data = openStream().readLines().map { it.toCharArray() }
+    override fun solveTwo() = openStream().use { stream ->
+        val data = stream.readLines().map { it.toCharArray() }
         val gearRatios: MutableList<Int> = mutableListOf()
         for (lineNumber in data.indices) {
             for (charNumber in data[lineNumber].indices) {
@@ -329,7 +328,8 @@ class Day03(filename: String? = null) : DayOfCode(filename ?: "03.data") {
                 }
             }
         }
-        return gearRatios.sumOf { it }
+        
+        gearRatios.sumOf { it }
     }
     
     private fun Char.isSymbolic(): Boolean = !this.isDigit() && this != '.'

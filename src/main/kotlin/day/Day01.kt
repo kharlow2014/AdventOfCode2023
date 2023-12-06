@@ -5,14 +5,14 @@ import kotlin.math.min
 
 class Day01(filename: String? = null) : DayOfCode(filename ?: "01.data") {
 
-    override fun solveOne(): Any {
-        return openStream().readLines().sumOf { line ->
+    override fun solveOne() = openStream().use { stream ->
+        stream.readLines().sumOf { line ->
             CalibrationInstructions(line).digitsOnly
         }
     }
 
-    override fun solveTwo(): Any {
-        return openStream().readLines().sumOf { line ->
+    override fun solveTwo() = openStream().use { stream ->
+        stream.readLines().sumOf { line ->
             CalibrationInstructions(line).digitsOrWords
         }
     }

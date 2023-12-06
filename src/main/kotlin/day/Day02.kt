@@ -4,8 +4,8 @@ import DayOfCode
 
 class Day02(filename: String? = null) : DayOfCode(filename ?: "02.data") {
     
-    override fun solveOne(): Any {
-        return openStream().readLines().sumOf { line ->
+    override fun solveOne() = openStream().use { stream ->
+        stream.readLines().sumOf { line ->
             val gameId = line.split(":")[0].split(" ").last().toInt()
             var isValid = true
             line.split(":").drop(1).forEach { games -> 
@@ -25,8 +25,8 @@ class Day02(filename: String? = null) : DayOfCode(filename ?: "02.data") {
         }
     }
 
-    override fun solveTwo(): Any {
-        return openStream().readLines().sumOf { line ->
+    override fun solveTwo() =  openStream().use { stream ->
+        stream.readLines().sumOf { line ->
             val bagOfCubes = BagOfCubes()
             line.split(":").drop(1).forEach { games ->
                 games.split(";").forEach { game ->
