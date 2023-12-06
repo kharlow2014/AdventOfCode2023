@@ -4,19 +4,19 @@ import DayOfCode
 
 class Day04(filename: String? = null) : DayOfCode(filename ?: "04.data") {
 
-    override fun solveOne(): Any {
-        return openStream().readLines().sumOf { line ->
+    override fun solveOne(): Any = openStream().use { stream ->
+        stream.readLines().sumOf { line ->
             LottoGame(line).points
         }
     }
 
-    override fun solveTwo(): Any {
-        val games = openStream().readLines().map { LottoGame(it) }.associateBy { it.gameId }
+    override fun solveTwo(): Any = openStream().use { stream ->
+        val games = stream.readLines().map { LottoGame(it) }.associateBy { it.gameId }
         val cardsWonForGameId: MutableMap<Int, Int> = mutableMapOf()
         games.toSortedMap().toList().asReversed().forEach { (gameId, game) ->
             cardsWonForGameId[gameId] = game.cardsCopied.sumOf { cardsWonForGameId[it] ?: 0 } + 1
         }
-        
+
         return cardsWonForGameId.toList().sumOf { it.second }
     }
 
@@ -26,12 +26,12 @@ class Day04(filename: String? = null) : DayOfCode(filename ?: "04.data") {
         private val winningNumbers = splitData[1].split("\\s+".toRegex()).map { it.toInt() }
         private val myNumbers = splitData[2].split("\\s+".toRegex()).map { it.toInt() }
         private val matchCount: Int = myNumbers.sumOf {
-                if (winningNumbers.contains(it)) {
-                    POINTS_PER_WIN
-                } else {
-                    0
-                }
+            if (winningNumbers.contains(it)) {
+                POINTS_PER_WIN
+            } else {
+                0
             }
+        }
         val cardsCopied = (1..matchCount).map { gameId + it }
 
         val points: Int
