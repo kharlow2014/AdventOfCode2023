@@ -8,5 +8,6 @@ enum class AdventOfCode(val dayOfCode: DayOfCode) {
     Day5(Day05()),
     Day6(Day06()),
     Day7(Day07()),
-    Day8(Day08())
+    Day8(Day08()),
+    Day9(Day09())
 }
